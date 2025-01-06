@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    system("chcp 65001");
+    // system("chcp 65001");
     cout << "type: \t\t" << "************size**************"<< endl;
     cout << "bool: \t\t" << "所占字节数：" << sizeof(bool);
     cout << "\t最大值：" << (numeric_limits<bool>::max)();
