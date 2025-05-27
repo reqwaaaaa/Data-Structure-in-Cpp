@@ -4,45 +4,83 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <set>
-#include <unordered_set>
-#include <map>
+#include <sstream>
 #include <unordered_map>
-#include <list>
-#include <algorithm>
-#include <cmath>
-#include <functional>
-#include <numeric>
+#include <unordered_set>
+#include <vector>
 
 using namespace std;
 
 class Solution {
 public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
-    // }
+    unordered_map<string, string> value;                 // 已求值的变量
+    unordered_map<string, vector<string>> expr;          // 延迟表达式
+    unordered_set<string> visiting;                      // 检测循环依赖
+
+    // 递归求变量的值
+    string eval(const string& var) {
+        if (value.count(var)) return value[var];
+        if (visiting.count(var)) return ""; // 防止死循环（题目保证无环）
+
+        visiting.insert(var);
+        string res;
+        for (auto& token : expr[var]) {
+            if (token[0] == '$') res += eval(token.substr(1));
+            else res += token;
+        }
+        visiting.erase(var);
+        return value[var] = res; // 缓存结果
+    }
+
+    // 处理一条语句
+    void process(int type, const string& var, const vector<string>& tokens) {
+        if (type == 1) { // 立即赋值
+            string res;
+            for (auto& token : tokens)
+                res += (token[0] == '$') ? eval(token.substr(1)) : token;
+            value[var] = res;
+        } else if (type == 2) { // 延迟赋值
+            expr[var] = tokens;
+        } else if (type == 3) { // 输出变量值长度
+            cout << eval(var).length() % 1000000007 << '\n';
+        }
+    }
 };
 
 int main() {
-    // IO优化
     ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(nullptr);
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
+    int n;
+    cin >> n;
+    cin.ignore(); // 忽略换行符
 
     Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
+    vector<int> results; // 用于存储所有 3 类型语句的结果
 
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
+    while (n--) {
+        string line;
+        getline(cin, line);
+        stringstream ss(line);
+        int op; string var, token;
+        ss >> op >> var;
+
+        vector<string> tokens;
+        while (ss >> token) tokens.push_back(token);
+
+        if (op == 3) {
+            string val = sol.eval(var);
+            results.push_back(val.length() % 1000000007); // 收集结果
+        } else {
+            sol.process(op, var, tokens);
+        }
+    }
+
+    // 统一输出所有结果
+    for (int res : results) {
+        cout << res << '\n';
+    }
 
     return 0;
 }
+

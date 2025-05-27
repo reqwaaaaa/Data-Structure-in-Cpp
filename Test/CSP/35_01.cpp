@@ -19,30 +19,37 @@
 
 using namespace std;
 
-class Solution {
-public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
-    // }
-};
-
 int main() {
-    // IO优化
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    int n;
+    cin >> n; // 读取密码数量
+    while (n--) {
+        string s;
+        cin >> s; // 读取每个密码
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
+        // 统计字符类型
+        bool hasLetter = false, hasDigit = false, hasSpecial = false;
+        for (char c : s) {
+            if (isalpha(c)) hasLetter = true; // 检查是否有字母
+            else if (isdigit(c)) hasDigit = true; // 检查是否有数字
+            else if (c == '*' || c == '#') hasSpecial = true; // 检查是否有特殊字符
+        }
 
-    Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
+        // 统计每个字符的出现次数
+        int freq[128] = {0}; // ASCII 范围，覆盖所有可能字符
+        bool exceedFreq = false;
+        for (char c : s) {
+            freq[c]++;
+            if (freq[c] > 2) exceedFreq = true; // 某字符出现超过2次
+        }
 
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
-
+        // 判别安全等级
+        if (!hasLetter || !hasDigit || !hasSpecial) {
+            cout << 0 << endl; // 低：缺少某种类型字符
+        } else if (exceedFreq) {
+            cout << 1 << endl; // 中：有字符出现超过2次
+        } else {
+            cout << 2 << endl; // 高：满足所有条件
+        }
+    }
     return 0;
 }

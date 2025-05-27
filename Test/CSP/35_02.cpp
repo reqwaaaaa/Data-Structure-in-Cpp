@@ -19,30 +19,41 @@
 
 using namespace std;
 
-class Solution {
-public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
-    // }
-};
-
 int main() {
-    // IO优化
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    string s;
+    cin >> s; // 读取形如 #Hello World#
+    s = s.substr(1, s.length() - 2); // 提取原始字符串
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
+    int n;
+    cin >> n; // 读取字符对数
+    unordered_map<char, char> f;
+    for (int i = 0; i < n; i++) {
+        string pair;
+        cin >> pair; // 读取形如 #HH#
+        f[pair[1]] = pair[2]; // f(x) = y
+    }
 
-    Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
+    int m;
+    cin >> m; // 读取查询数
+    vector<int> k(m);
+    for (int i = 0; i < m; i++) {
+        cin >> k[i]; // 读取每个 k
+    }
 
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
+    string current = s; // 当前字符串
+    for (int i = 0; i < m; i++) {
+        string result = current;
+        int steps = k[i];
+        while (steps--) {
+            string next = result;
+            for (int j = 0; j < result.length(); j++) {
+                char ch = result[j];
+                next[j] = f.count(ch) ? f[ch] : ch; // 替换或保持不变
+            }
+            result = next;
+        }
+        cout << "#" << result << "#" << endl; // 输出形如 #s#
+    }
 
     return 0;
 }
