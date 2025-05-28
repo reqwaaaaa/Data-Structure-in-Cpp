@@ -21,28 +21,51 @@ using namespace std;
 
 class Solution {
 public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
-    // }
+    vector<pair<int, int>> countWords(int n, int m, const vector<vector<int>>& articles) {
+        vector<int> a(m + 1, 0); // a[i] = 出现过的文章数
+        vector<int> b(m + 1, 0); // b[i] = 出现的总次数
+
+        for (const auto& article : articles) {
+            unordered_set<int> seen;
+            for (int word : article) {
+                b[word]++;           // 总次数统计
+                seen.insert(word);   // 本篇中出现的单词集合
+            }
+            for (int word : seen) {
+                a[word]++;           // 每篇中唯一出现一次的单词，a++
+            }
+        }
+
+        vector<pair<int, int>> result;
+        for (int i = 1; i <= m; ++i) {
+            result.emplace_back(a[i], b[i]);
+        }
+        return result;
+    }
 };
 
 int main() {
-    // IO优化
     ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(nullptr);
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> articles(n);
+    for (int i = 0; i < n; ++i) {
+        int len;
+        cin >> len;
+        articles[i].resize(len);
+        for (int j = 0; j < len; ++j) {
+            cin >> articles[i][j];
+        }
+    }
 
     Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
-
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
+    auto result = sol.countWords(n, m, articles);
+    for (auto [ai, bi] : result) {
+        cout << ai << " " << bi << '\n';
+    }
 
     return 0;
 }

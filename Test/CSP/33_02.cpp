@@ -19,30 +19,47 @@
 
 using namespace std;
 
-class Solution {
-public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
-    // }
-};
+// 将字符串转换为全小写
+string to_lower(const string& s) {
+    string res = s;
+    transform(res.begin(), res.end(), res.begin(), ::tolower);
+    return res;
+}
 
 int main() {
-    // IO优化
     ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(nullptr);
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
+    int n, m;
+    cin >> n >> m;
 
-    Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
+    set<string> A, B;
+    string word;
 
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
+    // 读入第一篇文章
+    for (int i = 0; i < n; ++i) {
+        cin >> word;
+        A.insert(to_lower(word)); // 转小写后加入 set
+    }
+
+    // 读入第二篇文章
+    for (int i = 0; i < m; ++i) {
+        cin >> word;
+        B.insert(to_lower(word)); // 转小写后加入 set
+    }
+
+    // 求交集大小
+    vector<string> intersection;
+    set_intersection(A.begin(), A.end(), B.begin(), B.end(),
+                     back_inserter(intersection));
+
+    // 求并集大小
+    vector<string> uni;
+    set_union(A.begin(), A.end(), B.begin(), B.end(),
+              back_inserter(uni));
+
+    cout << intersection.size() << '\n';
+    cout << uni.size() << '\n';
 
     return 0;
 }
