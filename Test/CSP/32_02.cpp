@@ -19,30 +19,58 @@
 
 using namespace std;
 
+typedef long long ll;
+
 class Solution {
 public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
-    // }
+    // 快速幂：计算 base^exp
+    ll powInt(ll base, int exp) {
+        ll res = 1;
+        while (exp > 0) {
+            if (exp % 2 == 1) res *= base;
+            base *= base;
+            exp /= 2;
+        }
+        return res;
+    }
+
+    ll simplify(ll n, int k) {
+        ll result = 1;
+
+        for (ll i = 2; i * i <= n; ++i) {
+            int count = 0;
+            while (n % i == 0) {
+                n /= i;
+                count++;
+            }
+            if (count >= k) {
+                result *= powInt(i, count);
+            }
+        }
+
+        // n 最后剩下一个大素数
+        if (n > 1) {
+            if (k <= 1) result *= n;
+        }
+
+        return result;
+    }
 };
 
 int main() {
-    // IO优化
     ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(nullptr);
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
-
+    int q;
+    cin >> q;
     Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
 
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
+    for (int i = 0; i < q; ++i) {
+        ll n;
+        int k;
+        cin >> n >> k;
+        cout << sol.simplify(n, k) << "\n";
+    }
 
     return 0;
 }
