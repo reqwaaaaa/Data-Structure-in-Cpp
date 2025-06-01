@@ -4,45 +4,34 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <set>
-#include <unordered_set>
-#include <map>
 #include <unordered_map>
-#include <list>
-#include <algorithm>
-#include <cmath>
-#include <functional>
-#include <numeric>
+#include <vector>
 
 using namespace std;
 
-class Solution {
-public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
-    // }
-};
-
 int main() {
-    // IO优化
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    int n;
+    cin >> n;
+    cin.ignore(); // 清除换行
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
+    unordered_map<string, int> board_count;
+    vector<int> result;
 
-    Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
+    for (int step = 0; step < n; ++step) {
+        string board_flat;
+        for (int i = 0; i < 8; ++i) {
+            string row;
+            getline(cin, row);
+            board_flat += row;
+        }
 
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
+        board_count[board_flat]++;
+        result.push_back(board_count[board_flat]);
+    }
+
+    for (int i = 0; i < n; ++i) {
+        cout << result[i] << "\n";
+    }
 
     return 0;
 }

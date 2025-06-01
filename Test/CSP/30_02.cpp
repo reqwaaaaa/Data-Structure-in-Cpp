@@ -3,46 +3,69 @@
 //
 
 #include <iostream>
-#include <string>
 #include <vector>
-#include <queue>
-#include <stack>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <unordered_map>
-#include <list>
-#include <algorithm>
-#include <cmath>
-#include <functional>
-#include <numeric>
 
 using namespace std;
 
-class Solution {
-public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
-    // }
-};
-
 int main() {
-    // IO优化
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    int n, d;
+    cin >> n >> d;
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
+    // 输入 Q、K、V
+    vector<vector<int>> Q(n, vector<int>(d));
+    vector<vector<int>> K(n, vector<int>(d));
+    vector<vector<int>> V(n, vector<int>(d));
 
-    Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < d; ++j)
+            cin >> Q[i][j];
 
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < d; ++j)
+            cin >> K[i][j];
+
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < d; ++j)
+            cin >> V[i][j];
+
+    // 输入权重向量 W
+    vector<int> W(n);
+    for (int i = 0; i < n; ++i)
+        cin >> W[i];
+
+    // Step 1: 计算 QK^T
+    vector<vector<int>> qkt(n, vector<int>(n, 0));  // QK^T 是 n x n
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            for (int k = 0; k < d; ++k) {
+                qkt[i][j] += Q[i][k] * K[j][k];  // 注意是 K 的转置
+            }
+        }
+    }
+
+    // Step 2: 每行乘以 W[i]
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < n; ++j)
+            qkt[i][j] *= W[i];
+
+    // Step 3: qkt × V → 结果是 n x d
+    vector<vector<int>> result(n, vector<int>(d, 0));
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < d; ++j) {
+            for (int k = 0; k < n; ++k) {
+                result[i][j] += qkt[i][k] * V[k][j];
+            }
+        }
+    }
+
+    // 输出结果
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < d; ++j) {
+            cout << result[i][j];
+            if (j < d - 1) cout << " ";
+        }
+        cout << "\n";
+    }
 
     return 0;
 }
