@@ -19,30 +19,39 @@
 
 using namespace std;
 
+// 快速输入输出
+#define FAST_IO ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+// 简写
+using ll = long long;
+using pii = pair<int, int>;
+
+// 方向数组（适用于图论/搜索）
+const int dx[4] = {0, 0, -1, 1};
+const int dy[4] = {-1, 1, 0, 0};
+
 class Solution {
 public:
-    // 题目要求的返回值类型 和方法名
-    // 根据题目定义参数
-    // 示例: vector<int> twoSum(vector<int>& nums, int target) {
-    //     // 实现算法逻辑
-    //     return result; // 返回结果
+    // 示例函数接口
+    // int someFunction(vector<int>& nums, int x) {
+    //     ...
+    //     return result;
     // }
 };
 
 int main() {
-    // IO优化
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    FAST_IO
 
-    // 读取输入，根据题目格式
-    // 示例: int n; cin >> n; vector<int> nums(n); for(int i = 0; i < n; i++) cin >> nums[i];
+    // 示例输入读取：
+    // int n, x; cin >> n >> x;
+    // vector<int> nums(n);
+    // for (int &v : nums) cin >> v;
 
     Solution sol;
-    // 调用方法，获取结果
-    // 示例: auto result = sol.twoSum(nums, target);
 
-    // 输出结果，根据题目要求
-    // 示例: for(int x : result) cout << x << " "; cout << endl;
+    // 示例调用：
+    // int ans = sol.someFunction(nums, x);
+    // cout << ans << endl;
 
     return 0;
 }
