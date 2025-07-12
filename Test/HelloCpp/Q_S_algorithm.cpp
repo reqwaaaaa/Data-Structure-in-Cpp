@@ -190,14 +190,23 @@ int factorial(int n) {
 
 // ------------------- 7. 单调队列：求滑动窗口最大值 -------------------
 vector<int> maxSlidingWindow(const vector<int>& nums, int k) {
-    deque<int> dq; // 存储下标，保证 dq.front() 为最大值下标
+    deque<int> dq;
+    /*
+    dq 是一个双端队列（deque），我们用它来存下标而不是数值，
+    保证里面的下标对应的数值是 单调递减 的（从队头到队尾），
+    队头 dq.front() 对应窗口内最大值。
+     */
     vector<int> res;
     for (int i = 0; i < nums.size(); i++) {
         // 保证单调递减，当前元素大于末尾则弹出
         while (!dq.empty() && nums[dq.back()] <= nums[i]) {
             dq.pop_back();
+            /*
+            当前 nums[i] 比队列尾部小/等，就不需要管，因为 nums[i] 会“遮住”它们（它们永远不会是最大值）
+            所以我们把它们全部从队尾 pop_back() 掉
+             */
         }
-        dq.push_back(i);
+        dq.push_back(i); // 再把当前元素 下标 加入队尾
 
         // 移出窗口外元素
         if (!dq.empty() && dq.front() <= i - k) dq.pop_front();
