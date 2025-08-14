@@ -21,7 +21,23 @@ using namespace std;
 
 class Solution {
   public:
-    int firstMissingPositive(vector<int>& nums) {}
+    int firstMissingPositive(vector<int>& nums) {
+      int n = nums.size();
+
+      for (int num : nums) {
+        if (num <= 0) num = n+1; //把所有非正数（<= 0）以及超过n的数，替换成n+1
+      }
+
+      for (int i = 0; i < n; i++) {
+        int num = abs(nums[i]);
+        if (num <= n) nums[num - 1] = -abs(nums[num - 1]); //如果num出现过，就把num下标对应的数组值标为负
+      }
+
+      for (int i = 0; i < n; i++) {
+        if (nums[i] > 0) return i + 1; //第一个正数对应的下标
+      }
+      return n + 1; //如果 [1, n] 都出现了，那最小缺失正整数就是 n+1
+    }
 };
 
 /*
