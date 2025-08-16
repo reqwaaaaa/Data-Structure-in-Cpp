@@ -24,11 +24,27 @@ struct ListNode {
     int val;
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
 class Solution {
   public:
-    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {}
+    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+      ListNode *dum = new ListNode(0);
+      ListNode *cur = dum;
+      int cf = 0; //进位flag
+
+      while (l1 || l2 || cf) {
+        int sum;
+        sum = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + cf;
+        cur->next = new ListNode(sum % 10); //cur 取个位
+        cur = cur->next;
+        cf = sum/10; //cf 取十位
+        if (l1) l1 = l1->next;
+        if (l2) l2 = l2->next;
+      }
+      return dum->next;
+    }
 };
 
 /*
