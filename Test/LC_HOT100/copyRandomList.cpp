@@ -36,9 +36,24 @@ public:
 class Solution {
   public:
     Node* copyRandomList(Node* head) {
+      if (head == NULL) return NULL;
 
+      Node* cur = head;
+      unordered_map<Node*, Node*> map; //键是原始节点指针（Node*），值是对应的新节点指针（Node*）
+
+      while (cur != NULL) {
+        map[cur] = new Node(cur->val); //创建新节点 new Node(cur->val)，值与原节点相同，next 和 random 初始为默认值 NULL
+        cur = cur->next;
+      }
+
+      cur = head; //将 cur 重新设为 head，再次遍历原始链表
+      while (cur != NULL) {
+        map[cur]->next = map[cur->next];
+        map[cur]->random = map[cur->random];
+        cur = cur->next;
+      }
+      return map[head]; //返回哈希表‘值’ （NODE*）
     }
-
 };
 
 /*
