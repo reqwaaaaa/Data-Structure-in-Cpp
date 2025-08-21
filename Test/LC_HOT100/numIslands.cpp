@@ -21,7 +21,42 @@ using namespace std;
 
 class Solution {
   public:
-    int numIslands(vector<vector<char>>& grid) {}
+    int numIslands(vector<vector<char>>& grid) {
+      if (grid.empty()) return 0;
+
+      int n = grid.size();
+      int m = grid[0].size();
+      int ans = 0;
+
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (grid[i][j] == '1') {
+            bfs(grid, i, j); //淹掉这块岛
+            ans++;
+          }
+        }
+      }
+      return ans;
+    }
+    // BFS 遍历，从 (i, j) 开始，把连在一起的所有 '1' 全部标记为 '0'
+    void bfs(vector<vector<char>>& grid, int i, int j) {
+      int n = grid.size();
+      int m = grid[0].size();
+      queue<pair<int, int>> q;
+      q.push({i, j});
+
+      while (!q.empty()) {
+        auto [row, col] = q.front();
+        q.pop();
+        if (row < 0 || row >= n || col < 0 || col >= m || grid[row][col] == '0') continue;
+        grid[row][col] = '0';
+        // 向四个方向扩展
+        q.push({row + 1, col});
+        q.push({row - 1, col});
+        q.push({row, col + 1});
+        q.push({row, col - 1});
+      }
+    }
 };
 
 /*
