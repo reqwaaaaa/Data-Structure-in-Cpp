@@ -21,7 +21,23 @@ using namespace std;
 
 class Solution {
   public:
-    vector<vector<int>> permute(vector<int>& nums) {}
+    vector<vector<int>> permute(vector<int>& nums) {
+      dfs(nums, 0);
+      return ans;
+    }
+
+    vector<vector<int>> ans;
+    void dfs(vector<int>& nums, int x) { //当前处理的索引，表示确定第 x 个位置的数字
+      if (x == nums.size() - 1) {
+        ans.push_back(nums);
+        return;
+      }
+      for (int i = x; i < nums.size(); i++) {
+        swap(nums[i], nums[x]); //将 nums[i] 固定在第 x 个位置
+        dfs(nums, i + 1); //处理下一个位置
+        swap(nums[i], nums[x]); //回溯，恢复数组状态
+      }
+    }
 };
 
 /*
