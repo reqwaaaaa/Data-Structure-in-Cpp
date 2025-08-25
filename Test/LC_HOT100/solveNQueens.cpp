@@ -28,9 +28,9 @@ class Solution {
       vector<bool> diag1(2 * n - 1, false);     // 主对角线（行 + 列）
       vector<bool> diag2(2 * n - 1, false);     // 副对角线（行 - 列 + n - 1）
 
-      auto backtrack = [&](this auto&& backtrack, int row) { //以行（row）为‘k’进行放置，递归
+      auto dfs = [&](this auto&& dfs, int row) { //以行（row）为‘k’进行放置，递归
         if (row == n) {
-          res.push_back(board); // 找到一个解
+          ans.push_back(board); // 找到一个解
           return;
         }
         for (int j = 0; j < n; ++j) {
@@ -39,13 +39,13 @@ class Solution {
           board[row][j] = 'Q';
           col[j] = diag1[row + j] = diag2[row - j + n - 1] = true;
           // 递归处理下一行
-          backtrack(row + 1);
+          dfs(row + 1);
           // 回溯，撤销选择
           board[row][j] = '.';
           col[j] = diag1[row + j] = diag2[row - j + n - 1] = false;
         }
       };
-      backtrack(0);
+      dfs(0);
       return ans;
     }
 };
