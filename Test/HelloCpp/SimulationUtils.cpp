@@ -5,7 +5,22 @@
 
 // 常见模拟题工具函数合集
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <list>
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <numeric>
+// #include <bits/stdc++.h>
+
 using namespace std;
 
 // ---------------------------
